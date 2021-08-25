@@ -19,8 +19,12 @@ export default {
   mounted() {
     console.log("mounted");
     // Bind to events
-    window.netlifyIdentity.on("init", (user) => console.log("init", user));
-    window.netlifyIdentity.on("login", (user) => console.log("login", user));
+    window.netlifyIdentity.on("init", (user) =>
+      console.log("init", JSON.stringify(user, null, 2))
+    );
+    window.netlifyIdentity.on("login", (user) =>
+      console.log("login", JSON.stringify(user, null, 2))
+    );
     window.netlifyIdentity.on("logout", () => console.log("Logged out"));
     window.netlifyIdentity.on("error", (err) => console.error("Error", err));
     window.netlifyIdentity.on("open", () => console.log("Widget opened"));
