@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div data-netlify-identity-menu></div>
+    <!-- <div data-netlify-identity-button></div> -->
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>

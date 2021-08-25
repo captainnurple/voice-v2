@@ -3,7 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-Vue.config.productionTip = false;
+// Suppress prod tips/warnings on dev startup
+Vue.config.productionTip = false
 
 new Vue({
   router,

@@ -16,6 +16,18 @@ Add a git repo on the netlify site as remote, using default build options (`dist
 
 Let netlify run initial build. Site should be live!
 
+To suppress `webpack.Progress` spam on hot reload, add vue.config.js with:
+
+```
+module.exports = {
+  // transpileDependencies: ["vuetify"],
+  devServer: {
+    // suppresses the massive webpack.Progress terminal spam when running dev server
+    progress: false,
+  },
+};
+```
+
 ## Local dev
 
 Run `netlify dev` and make sure you use the **netlify** local server at localhost:8888, not the vue local server at :8080 or you may run into problems.
@@ -43,3 +55,8 @@ Option 2) Add a simpler button:
 - Simple button that will open the modal.
 
   `<div data-netlify-identity-button>Login with Netlify Identity</div>`
+
+**NOTE** For local dev, as far as I can tell, only the "button" option above works, and requires Chrome. TODO: investigate further.
+
+Otherwise, next step: move to more of a code-based solution as demo'd here: https://github.com/whizjs/netlify-identity-demo-vue
+
