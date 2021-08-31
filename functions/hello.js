@@ -1,5 +1,5 @@
 // exports.handler = (event, context) => {
-exports.handler = () => {
+exports.handler = (event, context) => {
   console.log("hello, World!");
   return {
     statusCode: 200,
