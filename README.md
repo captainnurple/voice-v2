@@ -76,3 +76,31 @@ See docs for more.
 **Identity and Vuex**
 
 `auth.js` contains vuex code for managing Identity/auth states. Upon login, the auth state/user token is stored in vuex and persisted to localStorage (which will survive between browser sessions). Upon logout, vuex user and localStorage are purged.
+
+# Netlify Functions
+
+Netlify needs to know where the functions are, so create `netlify.toml` and insert:
+
+```
+[build]
+  functions="/functions"
+```
+
+Then create a functions directory.
+
+To test, create `hello.js` in functions directory with:
+
+```
+exports.handler = (event, context) => {
+  return {
+    statusCode: 200,
+    body: "hello, World!"
+  }
+}
+```
+
+And create `apitests.http` in the root with:
+
+`GET http://localhost:8888/.netlify/functions/hello`
+
+If you have REST Client installed in VSCode, you should be able to click to test after deploying locally via `netlify dev`
