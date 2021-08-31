@@ -16,7 +16,7 @@ Add a git repo on the netlify site as remote, using default build options (`dist
 
 Let netlify run initial build. Site should be live!
 
-To suppress `webpack.Progress` spam on hot reload, add vue.config.js with:
+To suppress `webpack.Progress` spam on hot reload, and to prevent `ERR_CONNECTION_TIMED_OUT` spam in browser console during local dev (see https://stackoverflow.com/q/52581143/675943), add vue.config.js with:
 
 ```
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
   devServer: {
     // suppresses the massive webpack.Progress terminal spam when running dev server
     progress: false,
+    host: "localhost",
   },
 };
 ```
@@ -60,3 +61,18 @@ Option 2) Add a simpler button:
 
 Otherwise, next step: move to more of a code-based solution as demo'd here: https://github.com/whizjs/netlify-identity-demo-vue
 
+### Identity notes
+
+Per the widget docs, you can bind to the various widget events via `window.netlifyIdentity`. For example, in the `mounted()` section of your component you can bind to login via
+
+```
+window.netlifyIdentity.on("login", (user) =>
+  console.log("login", JSON.stringify(user, null, 2))
+);
+```
+
+See docs for more.
+
+**Identity and Vuex**
+
+`auth.js` contains vuex code for managing Identity/auth states. Upon login, the auth state/user token is stored in vuex and persisted to localStorage (which will survive between browser sessions). Upon logout, vuex user and localStorage are purged.
