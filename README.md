@@ -91,16 +91,22 @@ Then create a functions directory.
 To test, create `hello.js` in functions directory with:
 
 ```
-exports.handler = (event, context) => {
+// eslint-disable-next-line no-unused-vars
+exports.handler = async function (event, context) {
+  console.log("hello, World!");
   return {
     statusCode: 200,
-    body: "hello, World!"
-  }
-}
+    body: JSON.stringify({ message: "Hello World" }),
+  };
+};
 ```
+
+Note the use of `async` - this is crucial to work in deployment, even though it will work without in local dev. (see Netlify docs for more)
 
 And create `apitests.http` in the root with:
 
 `GET http://localhost:8888/.netlify/functions/hello`
 
 If you have REST Client installed in VSCode, you should be able to click to test after deploying locally via `netlify dev`
+
+If everything worked, you should get a hello, World! response from the REST Client test!
