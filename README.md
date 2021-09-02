@@ -164,3 +164,5 @@ exports.handler = async (event) => {
 };
 
 ```
+
+If everything is working, you should be able to register a new user, and AFTER clicking the confirmation email, the Netlify function log should output the user object for that new signup!
