@@ -110,3 +110,57 @@ And create `apitests.http` in the root with:
 If you have REST Client installed in VSCode, you should be able to click to test after deploying locally via `netlify dev`
 
 If everything worked, you should get a hello, World! response from the REST Client test!
+
+# FaunaDB
+
+(Fauna and Netlify provide CLI tools to do this, but we'll skip that for now)
+
+Login to Fauna and click "Create Database."
+
+Name your database, and then select GraphQL on the sidebar.
+
+Locally, create a database folder with a schema in it `db/schema.gql` with the following schema (modify as necessary):
+
+```
+type User {
+  netlifyID: ID! # ! means can't return null
+  email: String!
+}
+```
+
+After importing your schema, test the following GraphQL query to ensure functionality:
+
+```
+# Write your query or mutation here
+mutation {
+  createUser(data: {netlifyID: 1, email:"bob"}) {
+    netlifyID
+    email
+  }
+}
+```
+
+If it worked, you should see the new entry in your Collections (as an entry in a new "User" collection). Hooray! Go ahead and delete that entry, and now we can wire up the new user signup hooks.
+
+# Identity Function Hooks
+### Bringing it together.
+
+We can now bring Netlify fuctions together with FaunaDB, using [Identity Function hooks](https://docs.netlify.com/functions/functions-and-identity/).
+
+Create your signup hook in `functions/identity-signup.js`. This will get called every time a new user signs up via Identity.
+
+See discussion [here](https://youtu.be/wqQ6kF-psu4?t=2635)
+
+Test via the following: 
+```
+exports.handler = async (event) => {
+  const { user } = JSON.parse(event.body);
+  console.log(JSON.stringify(user, null, 2));
+
+  return {
+    statusCode: 200,
+    // body: JSON.stringify({ app_metadata: { roles: ["user"] } }), // Optional metadata args; see docs
+  };
+};
+
+```
