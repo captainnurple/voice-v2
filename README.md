@@ -169,20 +169,13 @@ If everything is working, you should be able to register a new user, and AFTER c
 
 ## Wiring it Up to Fauna
 
-**First install helper functions in the functions folder.** Anything your functions need have to be zipped up and provided to Netlify within the functions folder, so that's what we're doing here.
+**First install helper functions.** 
 
-cd into your functions dir
-run `npm init -y` 
-run `npm i node-fetch`
+Netlify can now include anything you npm install in root, so add the following:
 
-Then we have to tell Netlify to install those, so modify your netlify.toml file as follows:
+`npm i node-fetch@2.6.2`
 
-```
-[build]
-  command="npm i --prefix=functions"
-  publish = "src"
-  functions = "functions"
-```
+(node-fetch v3 requires different syntax so avoid it for now)
 
 Then add the following line at the top of `identity-signup.js`
 
