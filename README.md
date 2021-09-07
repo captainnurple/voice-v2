@@ -169,6 +169,25 @@ If everything is working, you should be able to register a new user, and AFTER c
 
 ## Wiring it Up to Fauna
 
+**First install helper functions in the functions folder.** Anything your functions need have to be zipped up and provided to Netlify within the functions folder, so that's what we're doing here.
+
+cd into your functions dir
+run `npm init -y` 
+run `npm i node-fetch`
+
+Then we have to tell Netlify to install those, so modify your netlify.toml file as follows:
+
+```
+[build]
+  command="npm i --prefix=functions"
+  publish = "src"
+  functions = "functions"
+```
+
+Then add the following line at the top of `identity-signup.js`
+
+`const fetch = require('node-fetch');`
+
 Navigate to your database in Netlify and go to the "Security" tab on the left. Select create a new key, and select "Server" key in the Role dropdown. Give it a name and the Key will appear.
 
 Copy the key and go back over to Netlify.
