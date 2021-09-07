@@ -221,6 +221,8 @@ const response = await fetch('https://graphql.fauna.com/graphql', {
 console.log({ response });
 ```
 
+Now run through a test user signup. If all goes well, you should see a new entry in your FaunaDB containing that user's email and netlifyID!
+
 
 
 
