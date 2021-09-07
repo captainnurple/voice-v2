@@ -166,3 +166,55 @@ exports.handler = async (event) => {
 ```
 
 If everything is working, you should be able to register a new user, and AFTER clicking the confirmation email, the Netlify function log should output the user object for that new signup!
+
+## Wiring it Up to Fauna
+
+Navigate to your database in Netlify and go to the "Security" tab on the left. Select create a new key, and select "Server" key in the Role dropdown. Give it a name and the Key will appear.
+
+Copy the key and go back over to Netlify.
+
+Go to Site Settings > Build & Deploy > Environment > Edit Variables
+
+Add an environment variable called FAUNA_SERVER_KEY and paste in the Key you copied above.
+
+From our Netlify function, we'll call Fauna as follows, adding the below code to our function:
+
+```
+const netlifyID = user.id;
+const email = user.email;
+
+const response = await fetch('https://graphql.fauna.com/graphql', {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.FAUNA_SERVER_KEY}`,
+  },
+  body: JSON.stringify({
+    query: `
+      mutation ($netlifyID: ID! $email: email!) {
+        createUser(data: {netlifyID: $netlifyID, email: $email}) {
+          netlifyID
+          email
+        }
+      }
+    `,
+    variables: {
+      netlifyID,
+      email
+    }
+  })
+})
+  .then(res => res.json())
+  .catch(err => console.error(JSON.stringify(err, null, 2)));
+
+console.log({ response });
+```
+
+
+
+
+
+
+
+
+
+
