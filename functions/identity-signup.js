@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 exports.handler = async (event) => {
   const { user } = JSON.parse(event.body);
   console.log(JSON.stringify(user, null, 2));
