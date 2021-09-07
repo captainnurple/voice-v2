@@ -202,7 +202,7 @@ const response = await fetch('https://graphql.fauna.com/graphql', {
   },
   body: JSON.stringify({
     query: `
-      mutation ($netlifyID: ID! $email: email!) {
+      mutation ($netlifyID: ID! $email: String!) {
         createUser(data: {netlifyID: $netlifyID, email: $email}) {
           netlifyID
           email
